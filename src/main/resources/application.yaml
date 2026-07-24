@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: mitocode-academy
+  jpa:
+    database: postgresql
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+  datasource:
+    dbcp2:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5433/mitocode_academy_2026_3_db
+      username: postgres
+      password: postgres
+
+server:
+  port: 9595
