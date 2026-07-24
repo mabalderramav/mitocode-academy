@@ -7,11 +7,10 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    dbcp2:
-      driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://localhost:5433/mitocode_academy_2026_3_db
-      username: postgres
-      password: postgres
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/mitocode_academy_2026_3_db
+    username: postgres
+    password: postgres
 
 server:
   port: 9595
