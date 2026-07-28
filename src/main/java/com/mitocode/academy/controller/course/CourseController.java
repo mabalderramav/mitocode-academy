@@ -1,5 +1,7 @@
 package com.mitocode.academy.controller.course;
 
+import com.mitocode.academy.config.MapperConfig;
+import com.mitocode.academy.dto.course.CourseDTO;
 import com.mitocode.academy.model.Course;
 import com.mitocode.academy.service.course.ICourseService;
 import lombok.RequiredArgsConstructor;
@@ -16,35 +18,46 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.mitocode.academy.config.MapperCourseUtil.toDto;
+import static com.mitocode.academy.config.MapperCourseUtil.toEntity;
+
 @RestController
 @RequestMapping("/v1/courses")
 @RequiredArgsConstructor
 public class CourseController {
 
     private final ICourseService service;
+    private final MapperConfig mapperConfig;
 
     @GetMapping
-    public ResponseEntity<List<Course>> findAll() {
+    public ResponseEntity<List<CourseDTO>> findAll() {
         List<Course> courses = service.findAll();
-        return ResponseEntity.ok(courses);
+        List<CourseDTO> courseDTOs = courses.stream()
+                .map(course -> toDto(course, mapperConfig))
+                .toList();
+        return ResponseEntity.ok(courseDTOs);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> findById(@PathVariable Integer id) {
+    public ResponseEntity<CourseDTO> findById(@PathVariable Integer id) {
         Course course = service.findById(id);
-        return ResponseEntity.ok(course);
+        CourseDTO courseDTO = toDto(course, mapperConfig);
+        return ResponseEntity.ok(courseDTO);
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody Course course) {
+    public ResponseEntity<Void> save(@RequestBody CourseDTO courseDTO) {
+        Course course = toEntity(courseDTO, mapperConfig);
         Course _ = service.save(course);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Course> update(@PathVariable Integer id, @RequestBody Course course) {
+    public ResponseEntity<CourseDTO> update(@PathVariable Integer id, @RequestBody CourseDTO courseDTO) {
+        Course course = toEntity(courseDTO, mapperConfig);
         Course updatedCourse = service.update(id, course);
-        return ResponseEntity.ok(updatedCourse);
+        CourseDTO updatedCourseDTO = toDto(updatedCourse, mapperConfig);
+        return ResponseEntity.ok(updatedCourseDTO);
     }
 
     @DeleteMapping("/{id}")
