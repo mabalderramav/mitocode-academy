@@ -31,7 +31,7 @@ public class StudentServiceImpl implements IStudentService {
 
     @Override
     public Student findById(Integer studentId) {
-        return repository.findById(studentId).orElse(null);
+        return repository.findById(studentId).orElse(new Student());
     }
 
     @Override
