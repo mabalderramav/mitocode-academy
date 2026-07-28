@@ -6,6 +6,9 @@ import com.mitocode.academy.repository.common.IGenericRepository;
 import java.util.List;
 
 public abstract class CrudImpl <T, I> implements ICrud<T, I> {
+
+    public static final String ID_NOT_FOUND = "ID NOT FOUND: ";
+
     protected abstract IGenericRepository<T, I> getRepo();
 
     @Override
@@ -16,7 +19,7 @@ public abstract class CrudImpl <T, I> implements ICrud<T, I> {
     @Override
     public T update(I id, T t) {
         if (!getRepo().existsById(id)) {
-            throw new ModelNotFoundException("ID NOT FOUND: " + id);
+            throw new ModelNotFoundException(ID_NOT_FOUND.concat(String.valueOf(id)));
         }
         return getRepo().save(t);
     }
@@ -28,13 +31,15 @@ public abstract class CrudImpl <T, I> implements ICrud<T, I> {
 
     @Override
     public T findById(I id) {
-        return getRepo().findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
+        return getRepo()
+                .findById(id)
+                .orElseThrow(() -> new ModelNotFoundException(ID_NOT_FOUND.concat(String.valueOf(id))));
     }
 
     @Override
     public void delete(I id) {
         if (!getRepo().existsById(id)) {
-            throw new ModelNotFoundException("ID NOT FOUND: " + id);
+            throw new ModelNotFoundException(ID_NOT_FOUND.concat(String.valueOf(id)));
         }
         getRepo().deleteById(id);
     }
