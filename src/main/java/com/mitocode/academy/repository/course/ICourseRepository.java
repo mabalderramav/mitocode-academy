@@ -1,7 +1,7 @@
 package com.mitocode.academy.repository.course;
 
 import com.mitocode.academy.model.Course;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.mitocode.academy.repository.common.IGenericRepository;
 
-public interface ICourseRepository extends JpaRepository<Course, Integer> {
+public interface ICourseRepository extends IGenericRepository<Course, Integer> {
 }
