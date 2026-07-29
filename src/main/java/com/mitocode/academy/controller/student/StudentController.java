@@ -4,6 +4,7 @@ import com.mitocode.academy.config.MapperConfig;
 import com.mitocode.academy.dto.student.StudentDTO;
 import com.mitocode.academy.model.Student;
 import com.mitocode.academy.service.student.IStudentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,14 +47,14 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<Void> save(@Valid @RequestBody StudentDTO studentDTO) {
         Student student = toEntity(studentDTO, mapperConfig);
         Student _ = service.save(student);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StudentDTO> update(@PathVariable Integer id, @RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<StudentDTO> update(@PathVariable Integer id, @Valid @RequestBody StudentDTO studentDTO) {
         Student student = toEntity(studentDTO, mapperConfig);
         Student updatedStudent = service.update(id, student);
         StudentDTO updatedStudentDTO = toDto(updatedStudent, mapperConfig);
