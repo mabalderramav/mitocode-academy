@@ -29,6 +29,10 @@ public class EnrollmentDetail {
     private String classroom;
 
     @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false, foreignKey = @ForeignKey(name = "FK_ENROLLMENT_DETAIL_COURSE"))
+    private Course course;
+
+    @ManyToOne
     @JoinColumn(
             name = "enrollment_id",
             nullable = false,
