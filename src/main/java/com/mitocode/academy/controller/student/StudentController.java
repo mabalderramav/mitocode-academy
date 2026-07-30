@@ -47,6 +47,15 @@ public class StudentController {
         return ResponseEntity.ok(studentDTO);
     }
 
+    @GetMapping("/list-students-sorted-in-descending-order-by-age")
+    public ResponseEntity<List<StudentDTO>> getStudentsOrderByAgeDesc() {
+        List<Student> students = service.getStudentsOrderByAgeDesc();
+        List<StudentDTO> studentDTOs = students.stream()
+                .map(student -> toDto(student, mapperConfig))
+                .toList();
+        return ResponseEntity.ok(studentDTOs);
+    }
+
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody StudentDTO studentDTO) {
         Student student = toEntity(studentDTO, mapperConfig);

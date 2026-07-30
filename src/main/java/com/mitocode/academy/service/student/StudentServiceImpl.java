@@ -1,10 +1,14 @@
 package com.mitocode.academy.service.student;
 
+import com.mitocode.academy.exception.ModelNotFoundException;
 import com.mitocode.academy.model.Student;
 import com.mitocode.academy.repository.student.IStudentRepository;
 import com.mitocode.academy.service.common.CrudImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,5 +19,20 @@ public class StudentServiceImpl extends CrudImpl<Student, Integer> implements IS
     @Override
     protected IStudentRepository getRepo() {
         return repository;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Student> getStudentsOrderByAgeDesc() {
+        List<Student> list = repository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Student::getAge).reversed())
+                .toList();
+        if (list.isEmpty()) {
+            throw new ModelNotFoundException("No students found");
+        }
+        return list;
     }
 }

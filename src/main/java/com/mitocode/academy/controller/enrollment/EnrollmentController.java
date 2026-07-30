@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 
 import static com.mitocode.academy.config.MapperEnrollmentUtil.toDto;
 import static com.mitocode.academy.config.MapperEnrollmentUtil.toEntity;
@@ -46,6 +47,12 @@ public class EnrollmentController {
     public ResponseEntity<EnrollmentDTO> findById(@PathVariable Integer id) {
         Enrollment enrollment = service.findById(id);
         return ResponseEntity.ok(toDto(enrollment, mapperConfig));
+    }
+
+    @GetMapping("/courses-and-students")
+    public ResponseEntity<Map<String, List<String>>> getEnrolledCoursesAndTheirCorrespondingStudents() {
+        Map<String, List<String>> result = service.getEnrolledCoursesAndTheirCorrespondingStudents();
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping
