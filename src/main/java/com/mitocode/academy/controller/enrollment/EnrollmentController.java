@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static com.mitocode.academy.config.MapperEnrollmentUtil.toDto;
@@ -54,7 +55,11 @@ public class EnrollmentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EnrollmentDTO> update(@PathVariable Integer id, @Valid @RequestBody EnrollmentDTO enrollmentDTO) {
+    public ResponseEntity<EnrollmentDTO> update(
+            @PathVariable Integer id,
+            @Valid @RequestBody
+            EnrollmentDTO enrollmentDTO)
+            throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         Enrollment enrollment = toEntity(enrollmentDTO, findStudent(enrollmentDTO), mapperConfig);
         enrollment.setEnrollmentId(id);
         Enrollment updatedEnrollment = service.update(id, enrollment);

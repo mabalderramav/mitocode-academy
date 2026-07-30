@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static com.mitocode.academy.config.MapperCourseUtil.toDto;
@@ -54,7 +55,8 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CourseDTO> update(@PathVariable Integer id, @Valid @RequestBody CourseDTO courseDTO) {
+    public ResponseEntity<CourseDTO> update(@PathVariable Integer id, @Valid @RequestBody CourseDTO courseDTO)
+            throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         Course course = toEntity(courseDTO, mapperConfig);
         Course updatedCourse = service.update(id, course);
         CourseDTO updatedCourseDTO = toDto(updatedCourse, mapperConfig);
